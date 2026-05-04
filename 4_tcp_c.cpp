@@ -10,24 +10,29 @@ using namespace std;
 
 int main() {
 
+    // define my IP and the port
     const char* ip_address = "127.0.0.1";
     const int port_no = 5555;
 
+    // define sock as the socket, it returns an int
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
         perror("error creating socket");
     }
 
+    // struct to convert it computer language
     struct sockaddr_in sin;
     memset(&sin, 0, sizeof(sin));
     sin.sin_family = AF_INET;
     sin.sin_addr.s_addr = inet_addr(ip_address);
     sin.sin_port = htons(port_no);
 
+    // try to connct between client and server
     if (connect(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {
         perror("error connecting to server");
     }
 
+    // define the data
     char data_addr[] = "Im a message";
     int data_len = strlen(data_addr);
     int sent_bytes = send(sock, data_addr, data_len, 0);
